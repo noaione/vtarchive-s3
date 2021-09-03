@@ -6,3 +6,12 @@
 body {
     @apply bg-gray-800 text-white;
 }
+
+.coco-link {
+    color: #f78458;
+    @apply transition duration-200 cursor-pointer;
+}
+
+.coco-link:hover {
+    color: #f9b084;
+}
