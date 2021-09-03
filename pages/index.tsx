@@ -16,7 +16,7 @@ class S3BucketMainViewer extends React.Component<{}, IndexState> {
     }
 
     async componentDidMount() {
-        console.info(window.location.href);
+        // console.info(window.location.href);
     }
 
     render() {

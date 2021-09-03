@@ -19,13 +19,10 @@ class S3BucketViewer extends React.Component<WithRouterProps, IndexState> {
     }
 
     async componentDidMount() {
-        console.info(window.location.href);
+        // console.info(window.location.href);
     }
 
     render() {
-        const params = this.props.router.query;
-        console.info(this.props.router);
-        console.info(params.s3path);
         return (
             <React.Fragment>
                 <Head>
