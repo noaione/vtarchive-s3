@@ -1,9 +1,15 @@
 import Head from "next/head";
 import React from "react";
+import { fetchList } from "@/lib/api";
+import { VTObject, VTPath } from "@/lib/s3";
+import CocoHeader from "@/components/CocoHeader";
+import BucketViewer from "@/components/Viewer";
+import FooterSection from "@/components/FooterSection";
 
 interface IndexState {
     isLoading: boolean;
-    paths: string[];
+    paths: VTPath[];
+    files: VTObject[];
 }
 
 class S3BucketMainViewer extends React.Component<{}, IndexState> {
@@ -12,22 +18,34 @@ class S3BucketMainViewer extends React.Component<{}, IndexState> {
         this.state = {
             isLoading: true,
             paths: [],
+            files: [],
         };
     }
 
     async componentDidMount() {
-        // console.info(window.location.href);
+        const paths = await fetchList();
+        const onlyPaths = paths.filter((path) => path.type === "FOLDER");
+        const onlyFiles = paths.filter((path) => path.type === "FILE");
+        this.setState({ isLoading: false, paths: onlyPaths as VTPath[], files: onlyFiles as VTObject[] });
     }
 
     render() {
+        const itemCount = this.state.paths.length + this.state.files.length;
         return (
             <React.Fragment>
                 <Head>
-                    <title>S3 Bucket Viewer</title>
-                    <meta name="description" content="A simple S3 Bucket viewer" />
+                    <title>VTHell Archive</title>
+                    <meta name="description" content="An archive of VTuber stuff" />
                 </Head>
-                <main className="py-4 px-6">
-                    <h1 className="text-2xl font-bold mb-4">S3 Bucket Viewer</h1>
+                <main className="py-8 quick-container">
+                    <CocoHeader />
+                    <hr className="mt-6" />
+                    <BucketViewer
+                        files={this.state.files}
+                        folders={this.state.paths}
+                        isLoading={this.state.isLoading}
+                    />
+                    <FooterSection count={itemCount} />
                 </main>
             </React.Fragment>
         );
