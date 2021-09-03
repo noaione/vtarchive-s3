@@ -5,6 +5,8 @@ module.exports = {
         swcLoader: true,
         // Replaces Terser (minifier) with next-swc
         swcMinify: true,
+        // Use ESM
+        esmExternals: true,
     },
     async headers() {
         return [
