@@ -4,6 +4,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function listingAPI(req: NextApiRequest, res: NextApiResponse) {
     const { path } = req.query;
-    const allContents = await listObjectPaths(selectFirst(path));
-    res.json(allContents);
+    const [allContents, isFailed] = await listObjectPaths(selectFirst(path));
+    res.json({ data: allContents, error: isFailed });
 }
