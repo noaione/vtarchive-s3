@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "@kachkaev/react-inline-js": "^0.2.0",
+    "@mdi/react": "^1.5.0",
+    "ky": "^0.28.5",
     "minio": "^7.0.19",
     "next": "^11.1.2",
     "react": "^17.0.2",
