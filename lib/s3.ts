@@ -51,7 +51,7 @@ export interface VTPath {
     type: "FOLDER";
 }
 
-type VTObjectOrPath = VTObject | VTPath;
+export type VTObjectOrPath = VTObject | VTPath;
 
 interface S3Object {
     name?: string;
@@ -101,7 +101,7 @@ export async function listObjectPaths(path?: string) {
     concattedObjects.forEach((item) => {
         if (item.prefix) {
             allCollected.push({
-                base: path,
+                base: path || "",
                 prefix: item.prefix.replace(path, ""),
                 type: "FOLDER",
             });
