@@ -1,4 +1,5 @@
 import { Client as MinioClient } from "minio";
+import { encryptKey } from "./cipher";
 import { isNone } from "./utils";
 
 export function createS3Client(): MinioClient {
@@ -42,6 +43,7 @@ export interface VTObject {
     key: string;
     prefix: string;
     size: number;
+    hash: string;
     type: "FILE";
 }
 
@@ -85,7 +87,6 @@ export async function listObjectPaths(path?: string) {
     let isError = false;
     const promises = new Promise<any[]>((resolve, reject) => {
         objectStream.on("end", () => {
-            console.info("END OF THE DATA!");
             resolve(concattedObjects);
         });
         objectStream.on("error", (err) => {
@@ -111,12 +112,24 @@ export async function listObjectPaths(path?: string) {
                 return;
             }
             allCollected.push({
-                key: item.name,
+                key: item.name.replace(path, ""),
                 prefix: path,
                 size: item.size,
                 type: "FILE",
+                hash: encryptKey(item.name),
             });
         }
     });
     return [allCollected, isError];
+}
+
+export async function getObjectMetadata(key: string) {
+    const s3 = createS3Client();
+    const BUCKET = process.env.S3_BUCKET;
+    if (isNone(BUCKET)) {
+        throw new Error("S3_BUCKET is not set");
+    }
+
+    const metadata = await s3.statObject(BUCKET, key);
+    return metadata;
 }
