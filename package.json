@@ -18,12 +18,14 @@
     "testall": "npm-run-all lint type-check"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.29.0",
     "@kachkaev/react-inline-js": "^0.2.0",
     "next": "^11.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@swc/core": "^1.2.84",
     "@types/node": "^15.14.9",
     "@types/react": "^17.0.19",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
