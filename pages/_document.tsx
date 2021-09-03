@@ -55,6 +55,7 @@ class VTArchiveDocument extends Document {
             <Html>
                 <Head>
                     <InlineJs code={THEME_CHECKER_JS} />
+                    <link rel="icon" type="image/png" href="https://p.n4o.xyz/i/cococlock.png" />
                 </Head>
                 <body>
                     <Main />
