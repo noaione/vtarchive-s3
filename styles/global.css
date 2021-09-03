@@ -15,3 +15,56 @@ body {
 .coco-link:hover {
     color: #f9b084;
 }
+
+.crumbs-link {
+    @apply opacity-100 transition-opacity duration-100;
+    @apply hover:opacity-80;
+    @apply cursor-pointer;
+}
+
+.quick-container {
+    max-width: 980px;
+    flex-grow: 1;
+    margin: 0 auto;
+    position: relative;
+    width: auto;
+}
+@media screen and (min-width: 1408px) {
+    .quick-container {
+        max-width: 1344px;
+    }
+}
+@media screen and (min-width: 1216px) {
+    .quick-container {
+        max-width: 1152px;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .quick-container {
+        max-width: 960px;
+    }
+}
+
+.is-divider, .is-divider-vertical {
+    border-top: .1rem solid #f5f5f5;
+}
+
+.is-divider, .is-divider-vertical {
+    display: block;
+    position: relative;
+    border-top: .1rem solid #dbdbdb;
+    height: .1rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.is-divider-vertical[data-content]:after, .is-divider[data-content]:after {
+    color: #ffffff;
+    background: #363636;
+    content: attr(data-content);
+    display: inline-block;
+    font-size: .75rem;
+    padding: .4rem .8rem;
+    transform: translateY(-1.1rem);
+    text-align: center;
+}
