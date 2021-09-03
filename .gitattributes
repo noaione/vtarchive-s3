@@ -1,0 +1,8 @@
+.eslintignore linguist-generated
+.eslintrc.js linguist-generated
+
+postcss.config.js linguist-generated
+tailwind.config.js linguist-generated
+
+.prettierignore linguist-generated
+.prettierrc.js linguist-generated

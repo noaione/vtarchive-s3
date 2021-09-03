@@ -1,0 +1,49 @@
+{
+  "name": "nextjs-template",
+  "version": "1.0.0",
+  "description": "A template",
+  "main": "index.js",
+  "repository": "https://github.com/noaione/nextjs-template",
+  "author": "noaione",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "next build",
+    "start": "next start",
+    "dev": "next dev",
+    "format": "prettier --write .",
+    "type-check": "tsc --pretty --noEmit",
+    "lint": "eslint --ext ts --ext tsx --ext js pages/ lib/ components/",
+    "lintfix": "eslint --ext ts --ext tsx --ext js pages/ lib/ components/ --fix",
+    "testall": "npm-run-all lint type-check"
+  },
+  "dependencies": {
+    "@kachkaev/react-inline-js": "^0.2.0",
+    "next": "^11.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@types/node": "^15.0.2",
+    "@types/react": "^17.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "autoprefixer": "^10.2.5",
+    "babel-plugin-typescript-to-proptypes": "^1.4.2",
+    "cssnano": "^5.0.2",
+    "esbuild-loader": "^2.13.1",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.23.2",
+    "postcss": "^8.2.14",
+    "postcss-extend": "^1.0.5",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-import": "^14.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.2.1",
+    "tailwindcss": "^2.1.2",
+    "typescript": "^4.2.4"
+  }
+}
