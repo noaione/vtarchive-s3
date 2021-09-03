@@ -1,4 +1,4 @@
-import type { S3Client } from "@aws-sdk/client-s3";
+import type { Client as MinioClient } from "minio";
 
 declare global {
     namespace NodeJS {
@@ -13,7 +13,7 @@ declare global {
         }
 
         interface Global {
-            s3?: S3Client;
+            s3?: MinioClient;
         }
     }
 }
