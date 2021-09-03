@@ -73,6 +73,11 @@ class S3ObjectInfo extends React.Component<ObjectProps> {
 
 export default S3ObjectInfo;
 
+function decodeHTMLEntities(contents: string) {
+    const mappings = { amp: "&", lt: "<", gt: ">", quot: `"`, "#039": "'", apos: "'" };
+    return contents.replace(/&([^;]+);/g, (m, c) => mappings[c]);
+}
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { eid } = context.params;
 
@@ -81,6 +86,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     if (decryptedUrl.startsWith("/")) {
         decryptedUrl = decryptedUrl.substring(1);
     }
+    // Some stuff for some reason got encoded
+    decryptedUrl = decodeHTMLEntities(decryptedUrl);
 
     const s3Metadata = await getObjectMetadata(decryptedUrl);
 
