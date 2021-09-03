@@ -47,7 +47,7 @@ class S3ObjectInfo extends React.Component<ObjectProps> {
                 <main className="py-8 quick-container">
                     <CocoHeader />
                     <hr className="mt-6" />
-                    <Breadcrumbs path={restMeerge} className="my-4" />
+                    <Breadcrumbs path={restMeerge} className="my-4" isViewMode />
                     <div className="flex flex-col bg-gray-700 px-4 py-4 rounded-md">
                         <h1 className="text-lg font-bold text-center">{titleData}</h1>
                         <p className="text-center mt-1">{this.props.metadata["content-type"]}</p>

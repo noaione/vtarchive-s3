@@ -8,9 +8,10 @@ import { isNone, Nullable } from "@/lib/utils";
 interface BreadcrumbsProps
     extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     path?: string;
+    isViewMode?: boolean;
 }
 
-function generateCrumbs(path?: Nullable<string>) {
+function generateCrumbs(path?: Nullable<string>, ignoreLast = false) {
     if (isNone(path)) {
         return null;
     }
@@ -25,20 +26,24 @@ function generateCrumbs(path?: Nullable<string>) {
         crumb = decodeURIComponent(crumb);
         const crumbPath = `/${crumbs.slice(0, index + 1).join("/")}`;
         crumbList.push(<span>/</span>);
-        crumbList.push(
-            <Link href={crumbPath} key={`crumb-${crumb}`}>
-                <a className="crumbs-link">{crumb}</a>
-            </Link>
-        );
+        if (index === crumbs.length - 1 && !ignoreLast) {
+            crumbList.push(<span>{crumb}</span>);
+        } else {
+            crumbList.push(
+                <Link href={crumbPath} key={`crumb-${crumb}`}>
+                    <a className="crumbs-link">{crumb}</a>
+                </Link>
+            );
+        }
     });
 
     return crumbList;
 }
 
 export default function Breadcrumbs(props: BreadcrumbsProps) {
-    const { path, className, ...rest } = props;
+    const { path, className, isViewMode, ...rest } = props;
 
-    const crumbs = generateCrumbs(path);
+    const crumbs = generateCrumbs(path, isViewMode);
 
     return (
         <div {...rest} className={`flex flex-row gap-2 ${className ?? ""}`}>
