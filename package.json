@@ -9,8 +9,8 @@
   "private": false,
   "scripts": {
     "build": "next build",
-    "start": "next start",
-    "dev": "next dev",
+    "start": "next start -p 7776",
+    "dev": "next dev -p 7777",
     "format": "prettier --write .",
     "type-check": "tsc --pretty --noEmit",
     "lint": "eslint --ext ts --ext tsx --ext js pages/ lib/ components/",
