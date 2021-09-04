@@ -11,3 +11,15 @@ export function selectFirst(values: string | string[]): string {
     }
     return values;
 }
+
+export function decodeHTMLEntities(contents: string) {
+    const mappings = { amp: "&", lt: "<", gt: ">", quot: `"`, "#039": "'", apos: "'" };
+    return contents.replace(/&([^;]+);/g, (m, c) => mappings[c]);
+}
+
+export function humanizeBytes(bytes: number): string {
+    const sizes = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
+    if (bytes === 0) return "0 B";
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)) as unknown as string);
+    return (bytes / Math.pow(1024, i)).toFixed(2) + " " + sizes[i];
+}
