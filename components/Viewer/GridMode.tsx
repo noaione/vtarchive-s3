@@ -4,10 +4,6 @@ import Link from "next/link";
 
 import mime from "mime-types";
 
-import Breadcrumbs from "./Breadcrumbs";
-import LoadingContainer from "./LoadContainer";
-import NoContent from "./NoContent";
-
 import Icon from "@mdi/react";
 import { mdiFile, mdiFileDocument, mdiFileImage, mdiFileMusic, mdiFileVideo, mdiFolder } from "@mdi/js";
 
@@ -30,13 +26,13 @@ function FolderRender(props: VTPath) {
                     <Icon path={mdiFolder} size={1} className="text-yellow-300" />
                 </div>
                 <td className="overflow-x-hidden">
-                    <div
-                        className="font-medium whitespace-nowrap overflow-x-hidden overflow-ellipsis"
+                    <span
+                        className="font-medium whitespace-nowrap overflow-hidden block overflow-ellipsis"
                         title={prefix}
                         aria-label={prefix}
                     >
                         {prefix}
-                    </div>
+                    </span>
                 </td>
             </div>
         </Link>
@@ -80,13 +76,13 @@ function FilesRender(props: SimpleObject) {
                         <Icon path={determineIcon(realName)} size={1} className="text-blue-300" />
                     </div>
                     <td className="overflow-x-hidden">
-                        <div
-                            className="font-medium whitespace-nowrap overflow-x-hidden overflow-ellipsis"
+                        <span
+                            className="font-medium whitespace-nowrap overflow-hidden block overflow-ellipsis"
                             title={realName}
                             aria-label={realName}
                         >
                             {realName}
-                        </div>
+                        </span>
                     </td>
                 </div>
             </a>
@@ -94,11 +90,8 @@ function FilesRender(props: SimpleObject) {
     );
 }
 
-function RenderContainer(props: Pick<ViewerProps, "folders" | "files">) {
+function BucketGridViewer(props: Pick<ViewerProps, "folders" | "files">) {
     const { folders, files } = props;
-    if (folders.length < 1 && files.length < 1) {
-        return <NoContent />;
-    }
 
     return (
         <div className="grid grid-cols-4 gap-2">
@@ -119,16 +112,4 @@ function RenderContainer(props: Pick<ViewerProps, "folders" | "files">) {
     );
 }
 
-class BucketViewer extends React.Component<ViewerProps> {
-    render() {
-        const { crumbs, files, folders, isLoading } = this.props;
-        return (
-            <div className="flex flex-col">
-                <Breadcrumbs path={crumbs} className="my-4" />
-                {isLoading ? <LoadingContainer /> : <RenderContainer files={files} folders={folders} />}
-            </div>
-        );
-    }
-}
-
-export default BucketViewer;
+export default BucketGridViewer;
