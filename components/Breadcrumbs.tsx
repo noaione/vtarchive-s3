@@ -25,12 +25,12 @@ function generateCrumbs(path?: Nullable<string>, ignoreLast = false) {
     crumbs.forEach((crumb, index) => {
         crumb = decodeURIComponent(crumb);
         const crumbPath = `/${crumbs.slice(0, index + 1).join("/")}`;
-        crumbList.push(<span>/</span>);
+        crumbList.push(<span key={`crumb-sep-${index}`}>/</span>);
         if (index === crumbs.length - 1 && !ignoreLast) {
-            crumbList.push(<span>{crumb}</span>);
+            crumbList.push(<span key={`crumb-${crumb}-${index}`}>{crumb}</span>);
         } else {
             crumbList.push(
-                <Link href={crumbPath} key={`crumb-${crumb}`}>
+                <Link href={crumbPath} key={`crumb-${crumb}-${index}`}>
                     <a className="crumbs-link">{crumb}</a>
                 </Link>
             );
