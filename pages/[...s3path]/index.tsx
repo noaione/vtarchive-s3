@@ -9,6 +9,7 @@ import BucketViewer from "@/components/Viewer";
 import { GetServerSidePropsContext } from "next";
 import { isNone } from "@/lib/utils";
 import FooterSection from "@/components/FooterSection";
+import ViewModeChange from "@/components/ViewMode";
 
 interface IndexState {
     isLoading: boolean;
@@ -67,7 +68,8 @@ class S3BucketPathViewer extends React.Component<S3BucketProps, IndexState> {
                 </Head>
                 <main className="py-8 quick-container">
                     <CocoHeader />
-                    <hr className="mt-6" />
+                    <ViewModeChange />
+                    <hr className="mt-4" />
                     <BucketViewer
                         files={this.state.files}
                         folders={this.state.paths}

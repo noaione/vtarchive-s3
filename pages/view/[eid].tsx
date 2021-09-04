@@ -1,6 +1,6 @@
 import { decryptKey } from "@/lib/cipher";
 import { getObjectMetadata } from "@/lib/s3";
-import { selectFirst } from "@/lib/utils";
+import { decodeHTMLEntities, selectFirst } from "@/lib/utils";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import React from "react";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import CocoHeader from "@/components/CocoHeader";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import FooterSection from "@/components/FooterSection";
+import ViewModeChange from "@/components/ViewMode";
 
 interface S3Metadata {
     "content-type": string;
@@ -46,7 +47,8 @@ class S3ObjectInfo extends React.Component<ObjectProps> {
                 </Head>
                 <main className="py-8 quick-container">
                     <CocoHeader />
-                    <hr className="mt-6" />
+                    <ViewModeChange />
+                    <hr className="mt-4" />
                     <Breadcrumbs path={restMeerge} className="my-4" isViewMode />
                     <div className="flex flex-col bg-gray-700 px-4 py-4 rounded-md">
                         <h1 className="text-lg font-bold text-center">{titleData}</h1>
@@ -72,11 +74,6 @@ class S3ObjectInfo extends React.Component<ObjectProps> {
 }
 
 export default S3ObjectInfo;
-
-function decodeHTMLEntities(contents: string) {
-    const mappings = { amp: "&", lt: "<", gt: ">", quot: `"`, "#039": "'", apos: "'" };
-    return contents.replace(/&([^;]+);/g, (m, c) => mappings[c]);
-}
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { eid } = context.params;

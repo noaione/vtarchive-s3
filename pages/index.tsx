@@ -5,6 +5,7 @@ import { VTObject, VTPath } from "@/lib/s3";
 import CocoHeader from "@/components/CocoHeader";
 import BucketViewer from "@/components/Viewer";
 import FooterSection from "@/components/FooterSection";
+import ViewModeChange from "@/components/ViewMode";
 
 interface IndexState {
     isLoading: boolean;
@@ -39,7 +40,8 @@ class S3BucketMainViewer extends React.Component<{}, IndexState> {
                 </Head>
                 <main className="py-8 quick-container">
                     <CocoHeader />
-                    <hr className="mt-6" />
+                    <ViewModeChange />
+                    <hr className="mt-4" />
                     <BucketViewer
                         files={this.state.files}
                         folders={this.state.paths}
