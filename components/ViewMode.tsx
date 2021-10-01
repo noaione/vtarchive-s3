@@ -1,54 +1,27 @@
-import { isNone } from "@/lib/utils";
 import { mdiViewGrid, mdiViewList } from "@mdi/js";
 import Icon from "@mdi/react";
 import React from "react";
 
-import { BucketViewMode } from "./Viewer";
+import type { BucketViewMode } from "./Viewer";
 
 interface ViewState {
     mode: BucketViewMode;
 }
 
-export default class ViewModeChange extends React.Component<{}, ViewState> {
+interface ViewProps {
+    initial: BucketViewMode;
+    onChange: (mode: BucketViewMode) => void;
+}
+
+export default class ViewModeChange extends React.Component<ViewProps> {
     constructor(props) {
         super(props);
         this.getMdiIcon = this.getMdiIcon.bind(this);
-        this.watchMode = this.watchMode.bind(this);
         this.toggleViewMode = this.toggleViewMode.bind(this);
-        this.state = {
-            mode: "grid",
-        };
-    }
-
-    watchMode(ev: StorageEvent) {
-        if (ev.key === "s3ViewMode") {
-            const mode = (ev.newValue as string) || "grid";
-            if (["grid", "list"].includes(mode.toLowerCase())) {
-                console.info("VIEWMODE WATCH MODE, CHANGE TO", mode);
-                this.setState({ mode: mode as BucketViewMode });
-            }
-        }
-    }
-
-    componentDidMount() {
-        const s3Options = localStorage.getItem("s3ViewMode");
-        if (isNone(s3Options)) {
-            localStorage.setItem("s3ViewMode", "grid");
-            return;
-        }
-        const mode = (s3Options as string) || "grid";
-        if (["grid", "list"].includes(mode.toLowerCase())) {
-            this.setState({ mode: mode as BucketViewMode });
-        }
-        window.addEventListener("storage", this.watchMode);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("storage", this.watchMode);
     }
 
     getMdiIcon() {
-        switch (this.state.mode) {
+        switch (this.props.initial) {
             case "grid":
                 return mdiViewGrid;
             case "list":
@@ -59,13 +32,15 @@ export default class ViewModeChange extends React.Component<{}, ViewState> {
     }
 
     toggleViewMode() {
-        const mode = this.state.mode === "grid" ? "list" : "grid";
-        localStorage.setItem("s3ViewMode", mode);
-        this.setState({ mode });
+        const mode = this.props.initial === "grid" ? "list" : "grid";
+        this.setState({ mode }, () => {
+            this.props.onChange(mode);
+            localStorage.setItem("s3ViewMode", mode);
+        });
     }
 
     render() {
-        const title = this.state.mode === "grid" ? "Grid" : "List";
+        const title = this.props.initial === "grid" ? "Grid" : "List";
         const titleProper = `Change view mode (Currently using ${title} mode)`;
         return (
             <div className="flex flex-row justify-end mt-2">

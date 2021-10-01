@@ -7,13 +7,7 @@ import mime from "mime-types";
 import Icon from "@mdi/react";
 import { mdiFile, mdiFileDocument, mdiFileImage, mdiFileMusic, mdiFileVideo, mdiFolder } from "@mdi/js";
 import { decodeHTMLEntities, humanizeBytes } from "@/lib/utils";
-
-export interface ViewerProps {
-    folders: VTPath[];
-    files: VTObject[];
-    crumbs?: string;
-    isLoading: boolean;
-}
+import { ViewerProps } from "./types";
 
 function FolderRender(props: VTPath) {
     let { prefix } = props;
