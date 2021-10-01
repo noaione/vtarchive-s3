@@ -45,11 +45,14 @@ export interface VTObject {
     size: number;
     hash: string;
     type: "FILE";
+    lastMod: string;
+    etag?: string;
 }
 
 export interface VTPath {
     base: string;
     prefix: string;
+    etag?: string;
     type: "FOLDER";
 }
 
@@ -117,6 +120,7 @@ export async function listObjectPaths(path?: string) {
                 size: item.size,
                 type: "FILE",
                 hash: encryptKey(item.name),
+                lastMod: item.lastModified.toISOString(),
             });
         }
     });
@@ -132,4 +136,65 @@ export async function getObjectMetadata(key: string) {
 
     const metadata = await s3.statObject(BUCKET, key);
     return metadata;
+}
+
+export async function getAllObjects(bucket?: string): Promise<[VTObjectOrPath[], boolean]> {
+    const s3 = createS3Client();
+    const BUCKET = bucket || process.env.S3_BUCKET;
+    if (isNone(BUCKET)) {
+        throw new Error("S3_BUCKET is not set and bucket is not provided");
+    }
+    const objectStream = s3.listObjectsV2(BUCKET, undefined, true);
+    const concattedObjects = [] as S3Object[];
+    objectStream.on("data", (item) => {
+        concattedObjects.push(item);
+    });
+    let isError = false;
+    const promises = new Promise<any[]>((resolve, reject) => {
+        objectStream.on("end", () => {
+            resolve(concattedObjects);
+        });
+        objectStream.on("error", (err) => {
+            isError = true;
+            reject(err);
+        });
+    });
+    await promises;
+    if (isError) {
+        return [[], true];
+    }
+    const allCollected = [] as VTObjectOrPath[];
+    concattedObjects.forEach((item) => {
+        if (item.name.endsWith("/")) {
+            let realPath = item.name;
+            const splitPath = item.name.split("/");
+            const baseNameSplit = splitPath.splice(0, 1);
+            let baseName = baseNameSplit[0];
+            if (splitPath.length === 1 && splitPath[1] === "") {
+                baseName = "";
+            } else {
+                realPath = splitPath.join("/");
+            }
+            allCollected.push({
+                base: baseName,
+                prefix: realPath,
+                type: "FOLDER",
+                etag: item.etag,
+            });
+        } else {
+            const prefixPath = item.name.split("/");
+            const paths = prefixPath.splice(0, prefixPath.length - 1);
+            const fileName = prefixPath[0];
+            allCollected.push({
+                key: fileName,
+                prefix: paths.join("/"),
+                size: item.size,
+                hash: encryptKey(item.name),
+                type: "FILE",
+                lastMod: item.lastModified.toISOString(),
+                etag: item.etag,
+            });
+        }
+    });
+    return [allCollected, isError];
 }
