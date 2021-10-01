@@ -24,6 +24,7 @@
     "@mdi/react": "^1.5.0",
     "@types/mime-types": "^2.1.1",
     "ky": "^0.28.5",
+    "luxon": "^2.0.2",
     "mime-types": "^2.1.32",
     "minio": "^7.0.19",
     "next": "^11.1.2",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@swc/core": "^1.2.84",
+    "@types/luxon": "^2.0.4",
     "@types/minio": "^7.0.10",
     "@types/node": "^15.14.9",
     "@types/react": "^17.0.19",
